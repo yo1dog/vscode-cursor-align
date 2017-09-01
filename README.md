@@ -1,4 +1,4 @@
-# cursor-align README
+# cursor-align
 
 Aligns all of the cursors/selections into a vertical line by inserting spaces. A very simple, quick, easy, and agnostic way to align code/text however you want.
 

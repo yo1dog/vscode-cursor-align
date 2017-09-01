@@ -2,7 +2,7 @@
   "name": "cursor-align",
   "displayName": "Cursor Align",
   "description": "Aligns all cursors using spaces.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "yo1dog",
   "engines": {
     "vscode": "^1.15.0"
