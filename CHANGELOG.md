@@ -5,8 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-## [1.0.0] - 2017-08-31
+## 1.0.0 - 2017-08-31
 ### Added
 - Inital Release
 
-[Unreleased]: https://github.com/yo1dog/vs-code/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.0...HEAD
