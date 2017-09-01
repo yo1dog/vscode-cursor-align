@@ -1,0 +1,64 @@
+{
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "impliedStrict": true,
+      "jsx": true
+    }
+  },
+  "env": {
+    "node": true,
+    "commonjs": true
+  },
+  "rules": {
+    "getter-return": "error",
+    "no-console": "off",
+    "no-template-curly-in-string": "error",
+    "valid-jsdoc": "error",
+    
+    "array-callback-return": "error",
+    "block-scoped-var": "error",
+    "curly": ["error", "multi-line"],
+    "eqeqeq": "error",
+    "no-eval": "error",
+    "no-extend-native": "error",
+    "no-fallthrough": "off",
+    "no-floating-decimal": "error",
+    "no-implicit-coercion": "error",
+    "no-implied-eval": "error",
+    "no-invalid-this": "error",
+    "no-iterator": "error",
+    "no-labels": "error",
+    "no-lone-blocks": "error",
+    "no-new-func": "error",
+    "no-new-wrappers": "error",
+    "no-proto": "error",
+    "no-return-assign": "error",
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-throw-literal": "error",
+    "no-unused-expressions": "error",
+    "no-void": "error",
+    "no-warning-comments": "warn",
+    "no-with": "error",
+    "radix": "error",
+    "no-undefined": "error",
+    "no-use-before-define": ["error", { "functions": false, "classes": false, "variables": true}],
+    "callback-return": "error",
+    "handle-callback-err": "error",
+    "no-buffer-constructor": "error",
+    "no-path-concat": "error",
+    "no-process-env": "error",
+    "no-unused-vars": "warn",
+    
+    "no-var": "error",
+    "prefer-arrow-callback": "warn",
+    "semi": "error",
+    "linebreak-style": ["warn", "unix"],
+    "no-bitwise": "error",
+    "one-var": ["warn", "never"],
+    "quotes": ["error", "single", {"allowTemplateLiterals": true}]
+  }
+}
