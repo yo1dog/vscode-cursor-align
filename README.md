@@ -2,6 +2,7 @@
 
 Aligns all of the cursors/selections into a vertical line by inserting spaces. A very simple, quick, easy, and agnostic way to align code/text however you want.
 
+
 ## Features
 
 ### Cursor Align
@@ -20,9 +21,13 @@ Aligns all of the cursors/selections into a vertical line by inserting spaces. A
 
 ---
 
+
 ## Extension Commands
 
-- `yo1dog.cursor-align.alignCursors` - I bind to `alt+a`.
+ Command                           | Key Binding
+-----------------------------------|-------------
+`yo1dog.cursor-align.alignCursors` | `alt+a`
+
 
 ## Implementation Details
 
@@ -36,7 +41,12 @@ Multiline selections don't make much sense with this tool, but here's how they a
 
 Likewise, multiple selections per line don't make much sense, but here's how they are handled: Multiple selections per line are combined into a single selection that starts at the left-most selection's starting point and ends at the right-most selection's end point.
 
+
 ## Known Issues
+
+- Selections behave unexpectedly when undoing and redoing.
+
+See [Issues](https://github.com/yo1dog/vscode-cursor-align/issues).
 
 ## Release Notes
 
