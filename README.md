@@ -44,8 +44,6 @@ Likewise, multiple selections per line don't make much sense, but here's how the
 
 ## Known Issues
 
-- Selections behave unexpectedly when undoing and redoing.
-
 See [Issues](https://github.com/yo1dog/vscode-cursor-align/issues).
 
 ## Release Notes
