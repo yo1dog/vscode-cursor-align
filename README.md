@@ -7,26 +7,20 @@ Aligns all of the cursors/selections into a vertical line by inserting spaces. A
 
 ### Cursor Align
 
-![test1](img/simpleO.gif)
-
----
+![Cursor Align Demo](img/cursorAlignDemo.gif)
 
 ### Selection Align
 
-![test1](img/select1O.gif)
+![Select Align Demo 1](img/selectAlignDemo1.gif)
 
----
-
-![test1](img/select2O.gif)
-
----
+![Select Align Demo 2](img/selectAlignDemo2.gif)
 
 
 ## Extension Commands
 
- Command                           | Key Binding
+ Command                           | Description
 -----------------------------------|-------------
-`yo1dog.cursor-align.alignCursors` | `alt+a`
+`yo1dog.cursor-align.alignCursors` | Aligns all cursors/selections.
 
 
 ## Implementation Details
