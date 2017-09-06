@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.0.3] - 2017-09-06
+### Removed
+- Removed known issues from README.
+
 ## [1.0.2] - 2017-09-06
 ### Fixed
 - Fixed selections on redo.
@@ -21,5 +25,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Inital Release
 
 [Unreleased]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.1...HEAD
+[1.0.3]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.3...v1.0.2
 [1.0.2]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.2...v1.0.1
 [1.0.1]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.1...v1.0.0
