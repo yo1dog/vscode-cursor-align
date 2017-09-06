@@ -1,44 +1,53 @@
-const vscode = require('vscode');
+const vscode           = require('vscode');
 
 
-function createSpaceInsertsFromAlignBlocks(alignBlocks, maxBlockStartChar, maxBlockLength) {
+/**
+ * Creates space inserts to align the given align blocks. Space Inserts
+ * hold spaces and the position to insert them.
+ * @param {Object[]} alignBlocks     Align blocks to align.
+ * @param {number}   targetStartChar Starting character to align the blocks to.
+ * @param {number}   targetLength    Length to align the blocks to.
+ */
+function createSpaceInsertsFromAlignBlocks(alignBlocks, targetStartChar, targetLength) {
   const spaceInserts = [];
   
+  // create space inserts for each align block
   for (let i = 0; i < alignBlocks.length; ++i) {
     const alignBlock = alignBlocks[i];
+    const alignBlockLength = alignBlock.endChar - alignBlock.startChar;
     
-    const startDist = maxBlockStartChar - alignBlock.startChar;
-    const endDist = maxBlockLength - (alignBlock.endChar - alignBlock.startChar);
+    const startDist = targetStartChar - alignBlock.startChar;
+    const endDist   = targetLength    - alignBlockLength;
     
     if (startDist > 0) {
-      spaceInserts.push(createSpaceInsert(alignBlock.startChar, alignBlock.line, startDist));
+      // insert spaces before the align block to align the left side
+      spaceInserts.push(createSpaceInsert(alignBlock.line, alignBlock.startChar, startDist));
     }
     if (endDist > 0) {
-      spaceInserts.push(createSpaceInsert(alignBlock.endChar, alignBlock.line, endDist));
+      // insert spaces after the align block to align the right side
+      spaceInserts.push(createSpaceInsert(alignBlock.line, alignBlock.endChar, endDist));
     }
   }
   
   return spaceInserts;
 }
 
-function createSpaceInsert(startChar, line, dist) {
+/**
+ * Creates a space insert.
+ * @param {number} line      Line to insert space.
+ * @param {number} startChar Character position to insert space at.
+ * @param {number} dist      Number of spaces to insert.
+ * @returns Space insert.
+ */
+function createSpaceInsert(line, startChar, dist) {
   return {
-    startChar,
-    line,
+    pos: new vscode.Position(line, startChar),
     str: ' '.repeat(dist)
   };
-}
-
-function applySpaceInserts(editBuilder, spaceInserts) {
-  for (let i = 0; i < spaceInserts.length; ++i) {
-    const spaceInsert = spaceInserts[i];
-    editBuilder.insert(new vscode.Position(spaceInsert.line, spaceInsert.startChar), spaceInsert.str);
-  }
 }
 
 
 module.exports = {
   createSpaceInsertsFromAlignBlocks,
-  createSpaceInsert,
-  applySpaceInserts
+  createSpaceInsert
 };
