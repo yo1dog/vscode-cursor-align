@@ -36,6 +36,13 @@ Multiline selections don't make much sense with this tool, but here's how they a
 Likewise, multiple selections per line don't make much sense, but here's how they are handled: Multiple selections per line are combined into a single selection that starts at the left-most selection's starting point and ends at the right-most selection's end point.
 
 
+## alt+a Not Working?
+
+If instead of aligning cursors a character is inserted or nothing happens, the default `alt+a` keybinding may be being caught higher up (ex: at the OS level). Try changing the keybinding.
+
+If you continue to have problems, please open a new issue [here](https://github.com/yo1dog/vscode-cursor-align/issues).
+
+
 ## Known Issues
 
 See [Issues](https://github.com/yo1dog/vscode-cursor-align/issues).
