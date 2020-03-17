@@ -1,106 +1,57 @@
 /**
  * Creates align blocks from the given selections. Align blocks represent
- * the blocks of text that should be aligned.
- * @param {vscode-Selection} selections Selections to create align blocks from.
- * @returns Align blocks.
+ * the blocks of text that should be aligned for each line.
+ * @param {vscode.Selection} selections Selections to create align blocks from.
+ * @returns {{line: number, cursors: number[]}}Align blocks.
  */
 function createAlignBlocksFromSelections(selections) {
-  const alignBlocks = [];
+  // selections are not ordered
+  const alignBlocks = new Map();
+
+  // index for insert in a sorted array
+  function sortedIndex(array, value) {
+    var low = 0,
+        high = array.length;
+
+    while (low < high) {
+        var mid = (low + high) >>> 1;
+        if (array[mid] <= value) low = mid + 1;
+        else high = mid;
+    }
+    return low;
+  }
+
+  function getBlock(line) {
+    let block = alignBlocks.get(line);
+    if (block == undefined) { // if the block don't exist yet, create it
+      block = { line, cursors: [] };
+      alignBlocks.set(line, block);
+    }
+    return block;
+  }
   
-  // create align blocks for each selection
-  for (let i = 0; i < selections.length; ++i) {
+  for (let i = 0; i < selections.length; i++) {
     const selection = selections[i];
-    
-    if (selection.isSingleLine) {
-      // create one block for single-line selections
-      alignBlocks.push(createAlignBlock(selection.start.line, selection.start.character, selection.end.character));
-    }
-    else {
-      // create two blocks 0-length blocks at the start and end for multi-line selections
-      alignBlocks.push(createAlignBlock(selection.start.line, selection.start.character, selection.start.character));
-      alignBlocks.push(createAlignBlock(selection.end  .line, selection.end  .character, selection.end  .character));
+
+    // get the block of this line and push the start and end of the block
+    let block = getBlock(selection.start.line);
+    let start = selection.start.character;
+    let end = selection.isSingleLine ? selection.end.character : start;
+    // insert start and end in the array, sorted
+    block.cursors.splice(sortedIndex(block.cursors, start), 0, start, end);
+
+    // create two blocks 0-length blocks at the start and end for multi-line selections
+    if (!selection.isSingleLine) {
+      block = getBlock(selection.end.line);
+      let pos = selection.end.character;
+      // insert start and end in the array, sorted
+      block.cursors.splice(sortedIndex(block.cursors, start), 0, pos, pos);
     }
   }
   
-  // combine align blocks that are on the same line
-  for (let i = 1; i < alignBlocks.length; ++i) {
-    for (let j = 0; j < i; ++j) {
-      // check if two blocks are on the same line
-      if (alignBlocks[j].line !== alignBlocks[i].line) {
-        continue;
-      }
-      
-      // combine the blocks by using the min start char and the max end char
-      alignBlocks[j].startChar = Math.min(alignBlocks[j].startChar, alignBlocks[i].startChar);
-      alignBlocks[j].endChar   = Math.max(alignBlocks[j].endChar,   alignBlocks[i].endChar  );
-      
-      alignBlocks.splice(i, 1);
-      --i;
-      break;
-    }
-  }
-  
-  return alignBlocks;
+  return Array.from(alignBlocks.values());
 }
-
-/**
- * Creates an align block.
- * @param {number} line Line of the align block.
- * @param {number} startChar Starting character of the align block.
- * @param {number} endChar Ending character of the align block.
- * @returns Align block.
- */
-function createAlignBlock(line, startChar, endChar) {
-  return {
-    line,
-    startChar,
-    endChar
-  };
-}
-
-/**
- * Gets the right-most starting character of the given align blocks.
- * @param {Object[]} alignBlocks
- * @returns {number} Right-most (max) starting character.
- */
-function getMaxAlignBlockStartChar(alignBlocks) {
-  let maxBlockStartChar = -1;
-  
-  for (let i = 0; i < alignBlocks.length; ++i) {
-    const alignBlock = alignBlocks[i];
-    
-    if (alignBlock.startChar > maxBlockStartChar) {
-      maxBlockStartChar = alignBlock.startChar;
-    }
-  }
-  
-  return maxBlockStartChar;
-}
-
-/**
- * Gets the longest length of the given align blocks.
- * @param {Object[]} alignBlocks
- * @returns {number} Longest (max) length.
- */
-function getMaxAlignBlockLength(alignBlocks) {
-  let maxBlockLength = -1;
-  
-  for (let i = 0; i < alignBlocks.length; ++i) {
-    const alignBlock = alignBlocks[i];
-    const blockLength = alignBlock.endChar - alignBlock.startChar;
-    
-    if (blockLength > maxBlockLength) {
-      maxBlockLength = blockLength;
-    }
-  }
-  
-  return maxBlockLength;
-}
-
 
 module.exports = {
   createAlignBlocksFromSelections,
-  createAlignBlock,
-  getMaxAlignBlockStartChar,
-  getMaxAlignBlockLength
 };
