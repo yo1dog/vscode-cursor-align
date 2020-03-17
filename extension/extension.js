@@ -17,15 +17,14 @@ function alignCursors() {
   
   // get all the blocks of text that will be aligned from the selections
   const alignBlocks = alignBlockHelper.createAlignBlocksFromSelections(textEditor.selections);
+
   if (alignBlocks.length < 2) {
     return;
   }
   
-  const targetStartChar = alignBlockHelper.getMaxAlignBlockStartChar(alignBlocks);
-  const targetLength    = alignBlockHelper.getMaxAlignBlockLength   (alignBlocks);
-  
-  // calculate where we should insert spaces
-  const spaceInserts = spaceInsertHelper.createSpaceInsertsFromAlignBlocks(alignBlocks, targetStartChar, targetLength);
+  // calculate where we should insert spaces, and get the selections of each block
+  const [spaceInserts, selections] = spaceInsertHelper.createSpaceInsertsAndSelectionsFromAlignBlocks(alignBlocks);
+
   if (spaceInserts.length === 0) {
     return;
   }
@@ -50,13 +49,7 @@ function alignCursors() {
   }, {undoStopBefore: false, undoStopAfter: false}) // don't create an undo after (before does not seem to matter)
   .then(() => {
     // select all the aligned blocks
-    textEditor.selections = alignBlocks.map(alignBlock => {
-      const line      = alignBlock.line;
-      const startChar = targetStartChar;
-      const endChar   = targetStartChar + targetLength;
-      
-      return new vscode.Selection(line, startChar, line, endChar);
-    });
+    textEditor.selections = selections;
     
     textEditor.edit(textEditorEdit => {
       // noop
