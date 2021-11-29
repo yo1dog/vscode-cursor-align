@@ -3,7 +3,7 @@
   "displayName": "Cursor Align",
   "description": "Aligns all cursors using spaces.",
   "icon": "img/icon.png",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "publisher": "yo1dog",
   "engines": {
     "vscode": "^1.15.0"
@@ -17,7 +17,10 @@
   ],
   "main": "./extension.js",
   "browser": "./extension.js",
-  "extensionKind": ["ui", "workspace"],
+  "extensionKind": [
+    "ui",
+    "workspace"
+  ],
   "contributes": {
     "commands": [
       {
