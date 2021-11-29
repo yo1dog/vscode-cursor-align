@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.1.0] - 2021-11-29
+### Added
+- Added web support.
+- Added local support.
+
+### Changed
+- Cleaned up dependencies.
+
 ## [1.0.4] - 2017-09-06
 ### Changed
 - Updated readme and demo GIFs.

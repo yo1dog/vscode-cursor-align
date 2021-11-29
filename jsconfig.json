@@ -4,6 +4,9 @@
     "target": "es6",
     "lib": ["es6"]
   },
+  "files": [
+    "extension.js"
+  ],
   "exclude": [
     "node_modules"
   ]

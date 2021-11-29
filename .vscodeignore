@@ -1,7 +1,4 @@
 .vscode/**
-.vscode-test/**
-test/**
+.eslintrc.json
 .gitignore
 jsconfig.json
-vsc-extension-quickstart.md
-.eslintrc.json

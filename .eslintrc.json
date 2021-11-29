@@ -4,13 +4,13 @@
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
-      "impliedStrict": true,
-      "jsx": true
+      "impliedStrict": true
     }
   },
   "env": {
-    "node": true,
-    "commonjs": true
+    "shared-node-browser": true,
+    "commonjs": true,
+    "es6": true
   },
   "rules": {
     "getter-return": "error",

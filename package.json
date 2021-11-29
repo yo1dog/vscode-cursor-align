@@ -2,6 +2,7 @@
   "name": "cursor-align",
   "displayName": "Cursor Align",
   "description": "Aligns all cursors using spaces.",
+  "icon": "img/icon.png",
   "version": "1.0.4",
   "publisher": "yo1dog",
   "engines": {
@@ -14,26 +15,26 @@
   "activationEvents": [
     "onCommand:yo1dog.cursor-align.alignCursors"
   ],
-  "main": "./extension/extension.js",
+  "main": "./extension.js",
+  "browser": "./extension.js",
+  "extensionKind": ["ui", "workspace"],
   "contributes": {
-    "commands": [{
-      "command": "yo1dog.cursor-align.alignCursors",
-      "title": "Align Cursors"
-    }],
-    "keybindings": [{
-      "command": "yo1dog.cursor-align.alignCursors",
-      "key": "alt+a",
-      "when": "editorTextFocus"
-    }]
-  },
-  "scripts": {
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "test": "node ./node_modules/vscode/bin/test"
+    "commands": [
+      {
+        "command": "yo1dog.cursor-align.alignCursors",
+        "title": "Align Cursors"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "yo1dog.cursor-align.alignCursors",
+        "key": "alt+a",
+        "when": "editorTextFocus"
+      }
+    ]
   },
   "devDependencies": {
-    "eslint": "^4.5.0",
-    "mocha": "^3.5.0",
-    "vscode": "^1.1.5"
+    "eslint": "^8.3.0"
   },
   "dependencies": {},
   "bugs": {
