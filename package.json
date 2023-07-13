@@ -37,9 +37,8 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^8.3.0"
+    "eslint": "^8.44.0"
   },
-  "dependencies": {},
   "bugs": {
     "url": "https://github.com/yo1dog/vscode-cursor-align/issues",
     "email": "mike@yo1.dog"
