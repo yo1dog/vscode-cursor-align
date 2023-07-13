@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [1.1.2] - 2023-07-12
+### Changed
+- Updated icon.
+
 ## [1.1.0] - 2021-11-29
 ### Added
 - Added web support.
