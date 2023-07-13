@@ -8,6 +8,7 @@
   "engines": {
     "vscode": "^1.15.0"
   },
+  "author": "Mike \"yo1dog\" Moore",
   "license": "MIT",
   "categories": [
     "Other"
