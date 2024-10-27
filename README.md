@@ -52,6 +52,18 @@ See [Issues](https://github.com/yo1dog/vscode-cursor-align/issues).
 Aligning using tabs is a bit more complicated than spaces due to the requirement that tabs must start and end at tab stops in order to be aligned. As such, in some scenarios it may seem as though unneeded tabs are being inserted. However, these tabs are indeed necessary to ensure the rule "the start and end of all selections are aligned with tab stops."
 
 
+### Emojis/nonstandard characters mess up alignment.
+
+This is due to an underlying issue with vscode: https://github.com/microsoft/vscode/issues/100730
+
+There is no way to know how wide a character will be when displayed in vscode. It is completely up to the render engine with many environmental variables involved (font, ligatures, grapheme clustering, etc.). A character may even have a fractional width! Thus, there are some scenarios that are simply impossible to align correctly.
+
+For example, this emoji 👨‍👩‍👦‍👦 is actually 7 characters: `U+1F468` `U+200D` `U+1F469` `U+200D` `U+1F466` `U+200D` `U+1F466`. In vscode, placing the cursor after this emoji advances the column position by 7, indicating that it would take up the width of 7 characters. However, visually the emoji spans about 2.2 characters.
+
+On the flip side, the Japanese Kanji for man 男 is the single character `U+7537`, advances the cursor column position by 1, yet visually spans about 1.9 columns.
+
+![vscode alignment issue](img/vscodeAlignmentIssue.png)
+
 
 ## Release Notes
 
