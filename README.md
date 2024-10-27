@@ -3,13 +3,9 @@
 Aligns all of the cursors/selections into a vertical line by inserting spaces. A very simple, quick, easy, and agnostic way to align code/text however you want.
 
 
-## Features
-
-### Cursor Align
-
 ![Cursor Align Demo](img/cursorAlignDemo.gif)
 
-### Selection Align
+![Multi-Column Demo](img/multiColumnDemo.gif)
 
 ![Select Align Demo 1](img/selectAlignDemo1.gif)
 
@@ -29,12 +25,11 @@ Aligns all of the cursors/selections into a vertical line by inserting spaces. A
 
 Inserts spaces to the left of selections until all the selection starts are aligned with the right-most selection start. Adds spaces to the end of selections until all selections are the same length as the longest selection (all section ends are aligned with the right most selection end).
 
+If there are multiple selections per line. Selections are grouped into columns from left to right. All selections within a column are aligned with eachother.
+
 ### Caveats
 
-Multiline selections don't make much sense with this tool, but here's how they are handled: A multiline selection is split into two 0-length selections with one at the starting point and one at the end point of the multiline selection.
-
-Likewise, multiple selections per line don't make much sense, but here's how they are handled: Multiple selections per line are combined into a single selection that starts at the left-most selection's starting point and ends at the right-most selection's end point.
-
+Multiline selections don't make much sense with this tool. As such they are ignored.
 
 ## alt+a Not Working?
 

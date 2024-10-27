@@ -4,6 +4,15 @@ All notable changes to the "cursor-align" extension will be documented in this f
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Multi-column support.
+
+### Changed
+- ⚠️ **Breaking:** Multiple selections per line are now aligned in groups rather than being combined into a single selection.
+- ⚠️ **Breaking:** Multiline selections are now ignored rather than being split into two 0-length selections.
+
+### Fixed
+- Surrogate pairs are now considered to have a column span of 1 rather than 2.
 
 ## [1.1.2] - 2023-07-12
 ### Changed
@@ -36,12 +45,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Fixed
 - Fixed URLs in changelog.
 
-## 1.0.0 - 2017-08-31
+## [1.0.0] - 2017-08-31
 ### Added
 - Inital Release
 
-[Unreleased]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.1.0...v1.1.2
+[1.1.0]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.4...v1.1.0
 [1.0.4]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/yo1dog/vscode-cursor-align/releases/tag/v1.0.0

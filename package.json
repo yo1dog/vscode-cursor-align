@@ -6,15 +6,12 @@
   "version": "1.1.2",
   "publisher": "yo1dog",
   "engines": {
-    "vscode": "^1.15.0"
+    "vscode": "^1.75.0"
   },
   "author": "Mike \"yo1dog\" Moore",
   "license": "MIT",
   "categories": [
     "Other"
-  ],
-  "activationEvents": [
-    "onCommand:yo1dog.cursor-align.alignCursors"
   ],
   "main": "./extension.js",
   "browser": "./extension.js",
@@ -37,12 +34,15 @@
       }
     ]
   },
+  "scripts": {
+    "lint": "eslint extension.js",
+    "pretest": "npm run lint"
+  },
   "devDependencies": {
-    "eslint": "^8.44.0"
+    "eslint": "^8.57.1"
   },
   "bugs": {
-    "url": "https://github.com/yo1dog/vscode-cursor-align/issues",
-    "email": "mike@yo1.dog"
+    "url": "https://github.com/yo1dog/vscode-cursor-align/issues"
   },
   "repository": {
     "type": "git",
