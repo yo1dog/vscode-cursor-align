@@ -21,16 +21,10 @@ const vscode = require('vscode');
 
 /**
  * Aligns all cursors in the active text editor by inserting spaces.
+ * @param {vscode.TextEditor} textEditor 
+ * @param {boolean} [alignUsingTabs] 
  */
-function alignCursors() {
-  // Make sure we have an active text editor.
-  // NOTE: We use registerCommand instead of registerTextEditorCommand because we need greater
-  // control over the TextEditorEdit.
-  const textEditor = vscode.window.activeTextEditor;
-  if (!textEditor) {
-    return;
-  }
-  
+function alignCursors(textEditor, alignUsingTabs) {
   const {selections, document} = textEditor;
   const tabSize = /** @type {number} */(textEditor.options.tabSize);
   
@@ -126,6 +120,13 @@ function alignCursors() {
       }
     }
     
+    if (alignUsingTabs) {
+      // Align column padding to tab stops.
+      for (const tableColumn of tableColumns) {
+        tableColumn.paddingColSpan = Math.ceil(tableColumn.paddingColSpan / tabSize) * tabSize;
+      }
+    }
+    
     curCol += tableColumn.paddingColSpan;
     
     for (const block of tableColumn.blocks) {
@@ -137,6 +138,13 @@ function alignCursors() {
       block.blockColSpan = calcTextColSpan(text, curCol, tabSize);
       if (block.blockColSpan > tableColumn.columnColSpan) {
         tableColumn.columnColSpan = block.blockColSpan;
+      }
+    }
+    
+    if (alignUsingTabs) {
+      // Align column colpan to tab stops.
+      for (const tableColumn of tableColumns) {
+        tableColumn.columnColSpan = Math.ceil(tableColumn.columnColSpan / tabSize) * tabSize;
       }
     }
     
@@ -157,7 +165,7 @@ function alignCursors() {
   let didInsert = false;
   
   // Insert spaces such that every block has the same padding and colspan as its column.
-  const whitespace = ' ';
+  const whitespace = alignUsingTabs? '\t' : ' ';
   textEditor.edit(textEditorEdit => {
     let curLine = 0;
     let curCharOffset = 0;
@@ -167,8 +175,13 @@ function alignCursors() {
         curCharOffset = 0;
       }
       
-      const addPaddingCharCount = block.tableColumn.paddingColSpan - block.paddingColSpan;
-      const addBlockCharCount = block.tableColumn.columnColSpan - block.blockColSpan;
+      let addPaddingCharCount = block.tableColumn.paddingColSpan - block.paddingColSpan;
+      let addBlockCharCount = block.tableColumn.columnColSpan - block.blockColSpan;
+      
+      if (alignUsingTabs) {
+        addPaddingCharCount = Math.ceil(addPaddingCharCount / tabSize);
+        addBlockCharCount = Math.ceil(addBlockCharCount / tabSize);
+      }
       
       if (addPaddingCharCount > 0) {
         textEditorEdit.insert(new vscode.Position(block. line, block.startChar), whitespace.repeat(addPaddingCharCount));
@@ -263,7 +276,21 @@ module.exports = {
   activate(context) {
     // NOTE: We use registerCommand instead of registerTextEditorCommand because we need greater
     // control over the TextEditorEdit
-    context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignCursors', () => alignCursors()));
+    context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignCursors', () => {
+      const textEditor = vscode.window.activeTextEditor;
+      if (!textEditor) return;
+      alignCursors(textEditor, false);
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignCursorsUsingTabs', () => {
+      const textEditor = vscode.window.activeTextEditor;
+      if (!textEditor) return;
+      alignCursors(textEditor, true);
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignCursorsUsingAuto', () => {
+      const textEditor = vscode.window.activeTextEditor;
+      if (!textEditor) return;
+      alignCursors(textEditor, !textEditor.options.insertSpaces);
+    }));
   },
   
   deactivate() {

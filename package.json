@@ -24,6 +24,14 @@
       {
         "command": "yo1dog.cursor-align.alignCursors",
         "title": "Align Cursors"
+      },
+      {
+        "command": "yo1dog.cursor-align.alignCursorsUsingTabs",
+        "title": "Align Cursors Using Tabs"
+      },
+      {
+        "command": "yo1dog.cursor-align.alignCursorsUsingAuto",
+        "title": "Align Cursors Using Indentation Settings"
       }
     ],
     "keybindings": [

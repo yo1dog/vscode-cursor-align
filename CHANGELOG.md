@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased]
 ### Added
 - Multi-column support.
+- Alignment using tabs.
 
 ### Changed
 - ⚠️ **Breaking:** Multiple selections per line are now aligned in groups rather than being combined into a single selection.
