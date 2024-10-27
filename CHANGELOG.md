@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Changed
 - ⚠️ **Breaking:** Multiple selections per line are now aligned in groups rather than being combined into a single selection.
 - ⚠️ **Breaking:** Multiline selections are now ignored rather than being split into two 0-length selections.
+- ⚠️ **Breaking:** Tab size setting is now respected rather than always having a column span of 1.
 
 ### Fixed
 - Surrogate pairs are now considered to have a column span of 1 rather than 2.

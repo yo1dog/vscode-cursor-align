@@ -5,6 +5,7 @@ const vscode = require('vscode');
  * @property {number} line
  * @property {number} startChar
  * @property {number} endChar
+ * @property {number} paddingStartChar
  * @property {number} paddingColSpan
  * @property {number} blockColSpan
  * @property {TableColumn} tableColumn
@@ -13,6 +14,7 @@ const vscode = require('vscode');
  */
 /**
  * @typedef TableColumn
+ * @property {AlignBlock[]} blocks
  * @property {number} paddingColSpan
  * @property {number} columnColSpan
  */
@@ -30,6 +32,7 @@ function alignCursors() {
   }
   
   const {selections, document} = textEditor;
+  const tabSize = /** @type {number} */(textEditor.options.tabSize);
   
   // Create and sort blocks for each selection.
   /** @type {AlignBlock[]} */
@@ -43,6 +46,7 @@ function alignCursors() {
       line: selection.start.line,
       startChar: selection.start.character,
       endChar: selection.end.character,
+      paddingStartChar: 0,
       paddingColSpan: 0,
       blockColSpan: 0,
       tableColumn: /** @type {any} */(undefined),
@@ -67,7 +71,17 @@ function alignCursors() {
     return;
   }
   
-  // Calculate the table columns based on the blocks.
+  // Because the size of tabs is variable based on its position, and its position can change during
+  // alignment, its size can change during alignment, and thus the size of a table column can not be
+  // known until we know the starting position of the table column, which can not be known until we
+  // know the starting position and size of each previous column.
+  // 
+  // Thus, supporting tabs requires itterating blocks thrice rather than just once: The first time
+  // to group into table columns. Then in left-to-right order for each column, a second time to
+  // calculate the starting position of the column, and a thrid time to calcualte the colspan of the
+  // column.
+  
+  // Group blocks into table columns and calcualte block character padding.
   /** @type {TableColumn[]} */
   const tableColumns = [];
   let curLine = 0;
@@ -82,27 +96,51 @@ function alignCursors() {
     
     if (curTableColumnIndex === tableColumns.length) {
       tableColumns.push({
+        blocks: [],
         paddingColSpan: 0,
         columnColSpan: 0,
       });
     }
-    block.tableColumn = tableColumns[curTableColumnIndex];
     
-    ++curTableColumnIndex;
+    const tableColumn = tableColumns[curTableColumnIndex++];
+    tableColumn.blocks.push(block);
+    block.tableColumn = tableColumn;
     
-    const paddingCharLength = block.startChar - curChar;
-    const text = document.getText(new vscode.Range(curLine, curChar, curLine, block.endChar));
+    block.paddingStartChar = curChar;
     curChar = block.endChar;
-    
-    block.paddingColSpan = calcTextColSpan(text, 0, paddingCharLength);
-    block.blockColSpan = calcTextColSpan(text, paddingCharLength, text.length);
-    
-    if (block.paddingColSpan > block.tableColumn.paddingColSpan) {
-      block.tableColumn.paddingColSpan = block.paddingColSpan;
+  }
+  
+  // Calculate the padding and colspan of each block and table column.
+  let curCol = 0;
+  for (const tableColumn of tableColumns) {
+    for (const block of tableColumn.blocks) {
+      const text = document.getText(new vscode.Range(
+        block.line, block.paddingStartChar,
+        block.line, block.startChar
+      ));
+      
+      block.paddingColSpan = calcTextColSpan(text, curCol, tabSize);
+      
+      if (block.paddingColSpan > tableColumn.paddingColSpan) {
+        tableColumn.paddingColSpan = block.paddingColSpan;
+      }
     }
-    if (block.blockColSpan > block.tableColumn.columnColSpan) {
-      block.tableColumn.columnColSpan = block.blockColSpan;
+    
+    curCol += tableColumn.paddingColSpan;
+    
+    for (const block of tableColumn.blocks) {
+      const text = document.getText(new vscode.Range(
+        block.line, block.startChar,
+        block.line, block.endChar
+      ));
+      
+      block.blockColSpan = calcTextColSpan(text, curCol, tabSize);
+      if (block.blockColSpan > tableColumn.columnColSpan) {
+        tableColumn.columnColSpan = block.blockColSpan;
+      }
     }
+    
+    curCol += tableColumn.columnColSpan;
   }
   
   // NOTE: I'm really not sure how the undo system works. Especially regarding selections.
@@ -180,20 +218,28 @@ function alignCursors() {
  * "selected" values:
  * 
  * 1. All codepoints (including surrogate pairs, not individual code units) have a column span of 1.
- * 2. Grapheme clustering is ignored. The result is undeterminable so there is no advantage to
+ *    The only exception is tabs.
+ * 2. Tabs behave as if every other codepoint has a column span of 1. In reality, vscode uses the
+ *    visual position of the tab character to determine a tab's width. But as that is undeterminable
+ *    so to is tab behavior.
+ * 3. Grapheme clustering is ignored. The result is undeterminable so there is no advantage to
  *    accounting for it.
  * 
  * @param {string} text Text to iterate over.
- * @param {number} startIndex String index iteration lower bound (inclusive).
- * @param {number} endIndex String index iteration upper bound (exclusive).
+ * @param {number} textCol Text starting column.
+ * @param {number} tabSize Tab size.
  */
-function calcTextColSpan(text, startIndex, endIndex) {
+function calcTextColSpan(text, textCol, tabSize) {
   let colSpan = 0;
   let prevCodeUnit = 0;
-  for (let i = startIndex; i < endIndex; ++i) {
+  for (let i = 0; i < text.length; ++i) {
     const codeUnit = text.charCodeAt(i);
     
-    if (
+    if (codeUnit === 9) {
+      // Tab character.
+      colSpan += tabSize - ((textCol + colSpan) % tabSize);
+    }
+    else if (
       codeUnit >= 0xDC00 && codeUnit <= 0xDFFF &&      // current is low surrogate
       prevCodeUnit >= 0xD800 && prevCodeUnit <= 0xDBFF // previous was high surrogate
     ) {
