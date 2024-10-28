@@ -54,7 +54,7 @@ Aligning using tabs is a bit more complicated than spaces due to the requirement
 
 ### Emojis/nonstandard characters mess up alignment.
 
-This is due to an underlying issue with vscode: https://github.com/microsoft/vscode/issues/100730
+This is due to an underlying issue with vscode: [microsoft/vscode#100730](https://github.com/microsoft/vscode/issues/100730)
 
 There is no way to know how wide a character will be when displayed in vscode. It is completely up to the render engine with many environmental variables involved (font, ligatures, grapheme clustering, etc.). A character may even have a fractional width! Thus, there are some scenarios that are simply impossible to align correctly.
 
