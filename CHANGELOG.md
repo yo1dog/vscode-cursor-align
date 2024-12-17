@@ -5,7 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
-## [2.0.0] - 2023-10-27
+## [2.0.3] - 2024-12-17
+### Changed
+- Updated icon.
+
+## [2.0.2] - 2024-10-28
+### Changed
+- Remove uneeded images from vsix.
+
+## [2.0.1] - 2024-10-28
+### Changed
+- Updated description.
+
+## [2.0.0] - 2024-10-27
 ### Added
 - Multi-column support.
 - Alignment using tabs.
@@ -53,7 +65,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ### Added
 - Inital Release
 
-[Unreleased]: https://github.com/yo1dog/vscode-cursor-align/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/yo1dog/vscode-cursor-align/compare/v2.0.3...HEAD
+[2.0.1]: https://github.com/yo1dog/vscode-cursor-align/compare/v2.0.2...v2.0.3
+[2.0.1]: https://github.com/yo1dog/vscode-cursor-align/compare/v2.0.1...v2.0.2
+[2.0.1]: https://github.com/yo1dog/vscode-cursor-align/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.1.2...v2.0.0
 [1.1.2]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.1.0...v1.1.2
 [1.1.0]: https://github.com/yo1dog/vscode-cursor-align/compare/v1.0.4...v1.1.0
