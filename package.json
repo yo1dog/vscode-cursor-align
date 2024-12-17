@@ -3,7 +3,7 @@
   "displayName": "Cursor Align",
   "description": "Aligns all cursors using whitespace.",
   "icon": "img/icon.png",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "publisher": "yo1dog",
   "engines": {
     "vscode": "^1.75.0"
