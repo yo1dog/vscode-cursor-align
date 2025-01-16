@@ -20,7 +20,7 @@ const vscode = require('vscode');
  */
 
 /**
- * Aligns all cursors in the active text editor by inserting spaces.
+ * Aligns all cursors in the active text editor by inserting whitespace.
  * @param {vscode.TextEditor} textEditor 
  * @param {boolean} [alignUsingTabs] 
  */
@@ -71,7 +71,7 @@ function alignCursors(textEditor, alignUsingTabs) {
   // know the starting position and size of each previous column.
   // 
   // Thus, supporting tabs requires itterating blocks thrice rather than just once: The first time
-  // to group into table columns. Then in left-to-right order for each column, a second time to
+  // to group into table columns. Then (in left-to-right order for each column) a second time to
   // calculate the starting position of the column, and a thrid time to calcualte the colspan of the
   // column.
   
@@ -164,7 +164,7 @@ function alignCursors(textEditor, alignUsingTabs) {
   
   let didInsert = false;
   
-  // Insert spaces such that every block has the same padding and colspan as its column.
+  // Insert whitespace such that every block has the same padding and colspan as its column.
   const whitespace = alignUsingTabs? '\t' : ' ';
   textEditor.edit(textEditorEdit => {
     let curLine = 0;
@@ -184,16 +184,16 @@ function alignCursors(textEditor, alignUsingTabs) {
       }
       
       if (addPaddingCharCount > 0) {
-        textEditorEdit.insert(new vscode.Position(block. line, block.startChar), whitespace.repeat(addPaddingCharCount));
+        textEditorEdit.insert(new vscode.Position(block.line, block.startChar), whitespace.repeat(addPaddingCharCount));
         didInsert = true;
       }
       if (addBlockCharCount > 0) {
-        textEditorEdit.insert(new vscode.Position(block. line, block.endChar), whitespace.repeat(addBlockCharCount));
+        textEditorEdit.insert(new vscode.Position(block.line, block.endChar), whitespace.repeat(addBlockCharCount));
         didInsert = true;
       }
       
       block.finalStartChar = block.startChar + curCharOffset + addPaddingCharCount;
-      block.finalEndChar = block.endChar + curCharOffset + addPaddingCharCount + addBlockCharCount;
+      block.finalEndChar   = block.endChar   + curCharOffset + addPaddingCharCount + addBlockCharCount;
       
       curCharOffset += addPaddingCharCount + addBlockCharCount;
     }

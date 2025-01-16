@@ -1,6 +1,6 @@
 # cursor-align
 
-Aligns all of the cursors/selections into a vertical line by inserting whitespace. A very simple, quick, easy, and agnostic way to align code/text however you want.
+Vertically aligns all cursors/selections by inserting whitespace. A very simple, quick, easy, and agnostic way to align code/text however you want.
 
 Spaces are used by default, but tabs can also be used. The "auto" version will automatically use tabs or spaces based on your indentation settings. Consider rebinding the default `alt+a` keybinding to whichever you prefer.
 
@@ -15,11 +15,11 @@ Spaces are used by default, but tabs can also be used. The "auto" version will a
 
 ## Extension Commands
 
- Command                                    | Description
---------------------------------------------|-------------
-`yo1dog.cursor-align.alignCursors`          | Aligns all cursors/selections using spaces.
-`yo1dog.cursor-align.alignCursorsUsingTabs` | Aligns all cursors/selections using tabs.
-`yo1dog.cursor-align.alignCursorsUsingAuto` | Aligns all cursors/selections using either spaces or tabs based on the current indentation settings.
+ Command                                 | Description
+-----------------------------------------|-------------
+Align Cursors                            | Aligns all cursors/selections using spaces.
+Align Cursors Using Tabs                 | Aligns all cursors/selections using tabs.
+Align Cursors Using Indentation Settings | Aligns all cursors/selections using either spaces or tabs based on the current indentation settings.
 
 
 ## Implementation Details
