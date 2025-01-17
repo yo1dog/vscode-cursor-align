@@ -36,6 +36,10 @@
       {
         "command": "yo1dog.cursor-align.alignCursorsUsingAuto",
         "title": "Align Cursors Using Indentation Settings"
+      },
+      {
+        "command": "yo1dog.cursor-align.alignLineLastCursors",
+        "title": "Align Line Last Cursors"
       }
     ],
     "keybindings": [

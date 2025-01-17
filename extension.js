@@ -226,6 +226,55 @@ function alignCursors(textEditor, alignUsingTabs, extendBlockStart) {
 }
 
 /**
+ * Aligns the last curor of each line in the active text editor by inserting whitespace at the start
+ * of each line.
+ * @param {vscode.TextEditor} textEditor 
+ */
+function alignLineLastCursors(textEditor) {
+  const {selections, document} = textEditor;
+  const tabSize = /** @type {number} */(textEditor.options.tabSize);
+  
+  // Group selections into lines and calculate the ending character position.
+  /** @type {Map<number, number>} */
+  let lineMap = new Map();
+  for (const selection of selections) {
+    // Ignore multiline selections.
+    if (!selection.isSingleLine) continue;
+    
+    const endChar = lineMap.get(selection.end.line);
+    if (!endChar || selection.end.character > endChar) {
+      lineMap.set(selection.end.line, selection.end.character);
+    }
+  }
+  
+  // Calculate the ending colspan for each line.
+  let maxEndColSpan = 0;
+  /** @type {[number, number][]} */
+  const lineTuples = [];
+  for (const [line, endChar] of lineMap.entries()) {
+    const text = document.getText(new vscode.Range(line, 0, line, endChar));
+    const endColSpan = calcTextColSpan(text, 0, tabSize);
+    lineTuples.push([line, endColSpan]);
+    if (endColSpan > maxEndColSpan) {
+      maxEndColSpan = endColSpan;
+    }
+  }
+  
+  if (maxEndColSpan === 0 || lineTuples.length < 2) {
+    return; 
+  }
+  
+  // Insert spaces at the start of each line such that every line has the same ending colspan.
+  textEditor.edit(textEditorEdit => {
+    for (const [line, endColSpan] of lineTuples) {
+      const addPaddingCharCount = maxEndColSpan - endColSpan;
+      if (addPaddingCharCount === 0) continue;
+      textEditorEdit.insert(new vscode.Position(line, 0), ' '.repeat(addPaddingCharCount));
+    }
+  });
+}
+
+/**
  * NOTE: It is not possible to determine the actual column span (rendered visual width) of any given
  * character. It is completely up to the render engine with many environmental variables involved
  * (font, ligatures, grapheme clustering, etc.). It may even be fractional. Therefore, we make the
@@ -298,11 +347,17 @@ module.exports = {
       if (!textEditor) return;
       alignCursors(textEditor, !textEditor.options.insertSpaces);
     }));
+    context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignLineLastCursors', () => {
+      const textEditor = vscode.window.activeTextEditor;
+      if (!textEditor) return;
+      alignLineLastCursors(textEditor);
+    }));
   },
   
   deactivate() {
   },
   
   alignCursors,
+  alignLineLastCursors,
   calcTextColSpan,
 };

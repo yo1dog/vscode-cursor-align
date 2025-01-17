@@ -21,6 +21,7 @@ Align Cursors                            | Aligns all cursors/selections using s
 Align Cursors (Pad Front)                | Aligns all cursors/selections using spaces, adding padding to the front of selections rather than to the end.
 Align Cursors Using Tabs                 | Aligns all cursors/selections using tabs.
 Align Cursors Using Indentation Settings | Aligns all cursors/selections using either spaces or tabs based on the current indentation settings.
+Align Line Last Cursors                  | Aligns the last curor of each line by adding spaces to the front of each line.
 
 
 ## Implementation Details
@@ -34,6 +35,8 @@ If there are multiple selections per line. Selections are grouped into columns f
 If tabs are used for alignment, the start and end of all selections are aligned with tab stops.
 
 If the "Pad Front" variant is used, spaces are added to the front of selections rather than the end. This can be useful when right-aligning text.
+
+The "Align Line Last Cursors" command behaves differently from the rest. It adds spaces to the front of each line until the right-most selection end of all lines are aligned.
 
 ### Caveats
 
