@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased]
 
+## [2.1.1] - 2025-01-17
+### Updated
+- Updated readme.
+
 ## [2.1.0] - 2025-01-17
 ### Added
 - Added "Pad Front" command variant.

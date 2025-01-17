@@ -42,16 +42,17 @@ The "Align Line Last Cursors" command behaves differently from the rest. It adds
 
 Multiline selections don't make much sense with this tool. As such they are ignored.
 
-## alt+a Not Working?
+
+## Known Issues
+
+See [Issues](https://github.com/yo1dog/vscode-cursor-align/issues).
+
+### alt+a Not Working?
 
 If instead of aligning cursors a character is inserted or nothing happens, the default `alt+a` keybinding may be being caught higher up (ex: at the OS level). Try changing the keybinding.
 
 If you continue to have problems, please open a new issue [here](https://github.com/yo1dog/vscode-cursor-align/issues).
 
-
-## Known Issues
-
-See [Issues](https://github.com/yo1dog/vscode-cursor-align/issues).
 
 ### Why are extra tabs being inserted?
 
@@ -60,14 +61,14 @@ Aligning using tabs is a bit more complicated than spaces due to the requirement
 
 ### Why does Pad Front/right-align not work with tabs?
 
-It is not possible to ensure a consistant ending position when tabs are involved. For example, it is
+It is not possible to ensure a consistent ending position when tabs are involved. For example, it is
 impossible to make the ends of these two lines align:
 ```
 a→  X
 b→  cX
 ```
 
-### Emojis/nonstandard characters mess up alignment.
+### Why do emojis/nonstandard characters mess up alignment?
 
 This is due to an underlying issue with vscode: [microsoft/vscode#100730](https://github.com/microsoft/vscode/issues/100730)
 
