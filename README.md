@@ -18,6 +18,7 @@ Spaces are used by default, but tabs can also be used. The "auto" version will a
  Command                                 | Description
 -----------------------------------------|-------------
 Align Cursors                            | Aligns all cursors/selections using spaces.
+Align Cursors (Pad Front)                | Aligns all cursors/selections using spaces, adding padding to the front of selections rather than to the end.
 Align Cursors Using Tabs                 | Aligns all cursors/selections using tabs.
 Align Cursors Using Indentation Settings | Aligns all cursors/selections using either spaces or tabs based on the current indentation settings.
 
@@ -31,6 +32,8 @@ Inserts whitespace to the left of selections until all the selection starts are 
 If there are multiple selections per line. Selections are grouped into columns from left to right. All selections within a column are aligned with each other.
 
 If tabs are used for alignment, the start and end of all selections are aligned with tab stops.
+
+If the "Pad Front" variant is used, spaces are added to the front of selections rather than the end. This can be useful when right-aligning text.
 
 ### Caveats
 
@@ -63,6 +66,15 @@ For example, this emoji 👨‍👩‍👦‍👦 is actually 7 characters: `U+1
 On the flip side, the Japanese Kanji for man 男 is the single character `U+7537`, advances the cursor column position by 1, yet visually spans about 1.9 columns.
 
 ![vscode alignment issue](img/vscodeAlignmentIssue.png)
+
+### Why does Pad Front/right-align not work with tabs?
+
+It is not possible to ensure a consistant ending position when tabs are involved. For example, it is
+impossible to make the ends of these two lines align:
+```
+a→  X
+b→  cX
+```
 
 
 ## Release Notes

@@ -23,8 +23,10 @@ const vscode = require('vscode');
  * Aligns all cursors in the active text editor by inserting whitespace.
  * @param {vscode.TextEditor} textEditor 
  * @param {boolean} [alignUsingTabs] 
+ * @param {boolean} [extendBlockStart] 
  */
-function alignCursors(textEditor, alignUsingTabs) {
+function alignCursors(textEditor, alignUsingTabs, extendBlockStart) {
+  if (alignUsingTabs && extendBlockStart) throw new Error(`Extending block start using tabs is not allowed.`);
   const {selections, document} = textEditor;
   const tabSize = /** @type {number} */(textEditor.options.tabSize);
   
@@ -188,7 +190,7 @@ function alignCursors(textEditor, alignUsingTabs) {
         didInsert = true;
       }
       if (addBlockCharCount > 0) {
-        textEditorEdit.insert(new vscode.Position(block.line, block.endChar), whitespace.repeat(addBlockCharCount));
+        textEditorEdit.insert(new vscode.Position(block.line, extendBlockStart? block.startChar : block.endChar), whitespace.repeat(addBlockCharCount));
         didInsert = true;
       }
       
@@ -280,6 +282,11 @@ module.exports = {
       const textEditor = vscode.window.activeTextEditor;
       if (!textEditor) return;
       alignCursors(textEditor, false);
+    }));
+    context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignCursorsPadFront', () => {
+      const textEditor = vscode.window.activeTextEditor;
+      if (!textEditor) return;
+      alignCursors(textEditor, false, true);
     }));
     context.subscriptions.push(vscode.commands.registerCommand('yo1dog.cursor-align.alignCursorsUsingTabs', () => {
       const textEditor = vscode.window.activeTextEditor;

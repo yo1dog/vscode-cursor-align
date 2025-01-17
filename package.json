@@ -26,6 +26,10 @@
         "title": "Align Cursors"
       },
       {
+        "command": "yo1dog.cursor-align.alignCursorsPadFront",
+        "title": "Align Cursors (Pad Front)"
+      },
+      {
         "command": "yo1dog.cursor-align.alignCursorsUsingTabs",
         "title": "Align Cursors Using Tabs"
       },
